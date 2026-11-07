@@ -1,0 +1,643 @@
+
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SportZone | แนะนำอุปกรณ์กีฬา</title>
+
+    <link rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}?v=20">
+
+<body>
+
+    <!-- เมนูด้านบน -->
+    <header class="navbar">
+
+        <a href="/" class="logo">
+            SPORT<span>ZONE</span>
+        </a>
+
+        <nav class="menu">
+            <a href="/" class="menu-link">หน้าแรก</a>
+
+            <a href="/?category=ฟุตบอล"
+               class="menu-link">ฟุตบอล</a>
+
+            <a href="/?category=บาสเกตบอล"
+               class="menu-link">บาสเกตบอล</a>
+
+            <a href="/?category=วิ่ง"
+               class="menu-link">วิ่ง</a>
+        </nav>
+
+    </header>
+
+
+    <!-- แบนเนอร์หน้าแรก -->
+    <section class="hero">
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+
+            <p class="eyebrow">
+                YOUR SPORTS, YOUR STYLE
+            </p>
+
+            <h1>
+                ค้นหาอุปกรณ์กีฬา<br>
+                ที่ใช่สำหรับคุณ
+            </h1>
+
+            <p class="hero-description">
+                แนะนำอุปกรณ์กีฬาสำหรับคนรักฟุตบอล
+                บาสเกตบอล และการวิ่งไว้ในที่เดียว
+            </p>
+
+            <a href="#products" class="hero-button">
+                เลือกดูอุปกรณ์ →
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- เลือกประเภทกีฬา -->
+    <section class="categories">
+
+        <div class="center-heading">
+
+            <h2>เลือกประเภทกีฬา</h2>
+
+            <p>
+                ค้นหาอุปกรณ์ที่เหมาะกับกีฬาที่คุณชื่นชอบ
+            </p>
+
+        </div>
+
+        <div class="category-grid">
+
+            <a href="/?category=ฟุตบอล"
+               class="category-card football">
+
+                <div class="category-icon">⚽</div>
+
+                <div class="category-text">
+                    <h3>ฟุตบอล</h3>
+                    <p>Football</p>
+                </div>
+
+                <span class="category-arrow">↗</span>
+
+            </a>
+
+
+            <a href="/?category=บาสเกตบอล"
+               class="category-card basketball">
+
+                <div class="category-icon">🏀</div>
+
+                <div class="category-text">
+                    <h3>บาสเกตบอล</h3>
+                    <p>Basketball</p>
+                </div>
+
+                <span class="category-arrow">↗</span>
+
+            </a>
+
+
+            <a href="/?category=วิ่ง"
+               class="category-card running">
+
+                <div class="category-icon">🏃</div>
+
+                <div class="category-text">
+                    <h3>วิ่ง</h3>
+                    <p>Running</p>
+                </div>
+
+                <span class="category-arrow">↗</span>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- แสดงรายการสินค้า -->
+    <section class="products-section" id="products">
+
+        <div class="products-heading">
+
+            <div>
+                <h2>อุปกรณ์กีฬาแนะนำ</h2>
+
+                <p>
+                    เลือกอุปกรณ์ให้เหมาะกับกีฬาที่คุณชื่นชอบ
+                </p>
+            </div>
+
+            
+            
+        </div>
+
+
+        <!-- ปุ่มกรองหมวดหมู่ -->
+        <div class="filter-row">
+
+            <a href="/?category=ทั้งหมด"
+               class="filter-chip">ทั้งหมด</a>
+
+            <a href="/?category=ฟุตบอล"
+               class="filter-chip">ฟุตบอล</a>
+
+            <a href="/?category=บาสเกตบอล"
+               class="filter-chip">บาสเกตบอล</a>
+
+            <a href="/?category=วิ่ง"
+               class="filter-chip">วิ่ง</a>
+
+        </div>
+        
+<button type="button" id="favorites-toggle" class="favorites-btn">
+    ♡ ของโปรด
+    <span id="favorite-count">0</span>
+</button>
+
+<button type="button" id="back-products" class="favorites-btn"
+        style="display:none;">
+    ← กลับไปดูสินค้าทั้งหมด
+</button>
+
+<!-- ตัวกรองราคาสินค้า -->
+<div class="price-filter">
+    
+    <h3>💰 เลือกงบประมาณของคุณ</h3>
+
+    <form action="/" method="GET" class="price-form">
+
+        <input type="hidden" name="category"
+               value="{{ category }}">
+
+        <label>ราคาต่ำสุด</label>
+        <input type="number"
+               name="min_price"
+               min="100"
+               max="10000"
+               value="{{ min_price }}"
+               placeholder="100">
+
+        <label>ราคาสูงสุด</label>
+        <input type="number"
+               name="max_price"
+               min="100"
+               max="10000"
+               value="{{ max_price }}"
+               placeholder="10000">
+
+        <button type="submit">ค้นหาสินค้า</button>
+
+    </form>
+</div>
+
+        <!-- การ์ดสินค้า -->
+       <div class="product-grid" id="product-grid">
+
+    {% for item in products %}
+
+    <article class="product-card"
+        data-product-id="{{ loop.index0 }}">
+
+        <div class="product-image">
+
+            <img src="{{ item.image }}"
+                 alt="{{ item.name }}">
+
+            <span class="product-category">
+                {{ item.category }}
+            </span>
+
+            <button type="button"
+                    class="favorite"
+                    aria-label="เพิ่มในของโปรด">
+                ♡
+            </button>
+
+        </div>
+
+        <div class="product-details">
+
+            <h3>{{ item.name }}</h3>
+
+            <p>{{ item.description }}</p>
+
+            <div class="product-footer">
+
+                <strong>฿{{ item.price }}</strong>
+
+                <a href="{{ item.shop_url }}"
+                   target="_blank"
+                   class="buy-button">
+                    🛒 Shop
+                </a>
+
+            </div>
+
+        </div>
+
+    </article>
+
+    {% endfor %}
+
+</div>
+
+    </section>
+
+
+    <!-- แบนเนอร์ด้านล่าง -->
+    <section class="callout">
+
+        <div>
+
+            <p class="eyebrow">READY, SET, GO</p>
+
+            <h2>เริ่มต้นกิจกรรมที่คุณรัก</h2>
+
+            <p>
+                เลือกอุปกรณ์ที่เหมาะสม
+                แล้วออกไปสนุกกับกีฬาได้เลย
+            </p>
+
+        </div>
+
+        <a href="/" class="hero-button">
+            ดูสินค้าทั้งหมด →
+        </a>
+
+    </section>
+    <section class="styles-section" id="styles">
+    <h2>อุปกรณ์ที่เหมาะกับสไตล์การเล่น</h2>
+    <p>เลือกอุปกรณ์ให้เหมาะกับตำแหน่งและรูปแบบการเล่นของคุณ</p>
+
+    <div class="styles-grid">
+        {% for style in styles %}
+        <div class="style-card">
+
+            <img src="{{ style.image }}" alt="{{ style.name }}">
+
+            <div class="style-content">
+                <span>{{ style.sport }}</span>
+
+                <h3>{{ style.name }}</h3>
+
+                <p>{{ style.description }}</p>
+
+                <div class="recommendation">
+                    <strong>อุปกรณ์แนะนำ</strong>
+                    <p>{{ style.equipment }}</p>
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+    <!-- ส่วนท้ายเว็บไซต์ -->
+    <footer>
+
+        <a href="/" class="logo">
+            SPORT<span>ZONE</span>
+        </a>
+
+
+        <small>© 2026 SportZone | จัดทำเพื่อการศึกษา</small>
+
+    </footer>
+
+
+    <!-- หน้าต่างรายละเอียดสินค้า -->
+    <dialog id="productDialog">
+
+        <button class="dialog-close"
+                onclick="document.getElementById('productDialog').close()">
+            ×
+        </button>
+
+        <p class="eyebrow">PRODUCT DETAILS</p>
+
+        <h2 id="dialogName"></h2>
+
+        <p id="dialogDescription"></p>
+
+        <strong class="dialog-price">
+            ฿<​span id="dialogPrice"></span>
+        </strong>
+
+        <p class="dialog-note">
+            ข้อมูลและราคาเป็นตัวอย่าง
+        </p>
+
+    </dialog>
+
+
+    <!-- JavaScript สำหรับเปิดรายละเอียด -->
+    <script>
+
+        function showProduct(name, description, price) {
+
+            document.getElementById("dialogName").textContent = name;
+
+            document.getElementById("dialogDescription").textContent = description;
+
+            document.getElementById("dialogPrice").textContent = price;
+
+            document.getElementById("productDialog").showModal();
+
+        }
+
+    </script>
+
+<div id="imageModal" class="image-modal"
+     onclick="closeImage()">
+
+    <button class="close-image"
+            onclick="closeImage()">
+        &times;
+    </button>
+
+    <div class="image-modal-content"
+         onclick="event.stopPropagation()">
+        <img id="largeImage" src="" alt="">
+        <p id="largeImageName"></p>
+    </div>
+</div>
+
+<script>
+function openImage(src, name) {
+    document.getElementById("largeImage").src = src;
+    document.getElementById("largeImageName").textContent = name;
+    document.getElementById("imageModal").classList.add("active");
+}
+
+function closeImage() {
+    document.getElementById("imageModal").classList.remove("active");
+}
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") closeImage();
+});
+
+
+</script>
+
+
+<script>
+const FAVORITES_KEY = "sportzone_favorites";
+
+function getFavorites() {
+    try {
+        return JSON.parse(
+            localStorage.getItem(FAVORITES_KEY) || "[]"
+        );
+    } catch {
+        return [];
+    }
+}
+
+function saveFavorites(items) {
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(items));
+}
+
+function toggleFavorite(button) {
+    const card = button.closest(".product-card");
+    if (!card) return;
+
+    const image = card.querySelector(".product-image img");
+    if (!image) return;
+
+    const id = image.getAttribute("src");
+    const favorites = getFavorites();
+    const index = favorites.findIndex(item => item.id === id);
+
+    if (index !== -1) {
+        // กดหัวใจซ้ำเพื่อนำออกจากของโปรด
+        favorites.splice(index, 1);
+        button.textContent = "♡";
+        button.classList.remove("is-favorite");
+    } else {
+        // บันทึกสินค้า
+        button.textContent = "♥";
+        button.classList.add("is-favorite");
+
+        favorites.push({
+            id: id,
+            html: card.innerHTML
+        });
+    }
+
+    saveFavorites(favorites);
+    updateFavoriteCount();
+
+    if (document.getElementById("favoritesSection").style.display !== "none") {
+        renderFavorites();
+    }
+}
+
+function updateFavoriteCount() {
+    document.getElementById("favoriteCount").textContent =
+        getFavorites().length;
+}
+
+function renderFavorites() {
+    const grid = document.getElementById("favoritesGrid");
+    const empty = document.getElementById("emptyFavorites");
+    const favorites = getFavorites();
+
+    grid.innerHTML = "";
+
+    favorites.forEach(item => {
+        const card = document.createElement("article");
+        card.className = "product-card";
+        card.innerHTML = item.html;
+        grid.appendChild(card);
+    });
+
+    empty.style.display = favorites.length ? "none" : "block";
+}
+
+function showFavorites() {
+    document.querySelector(".product-grid").style.display = "none";
+    document.getElementById("favoritesSection").style.display = "block";
+    document.getElementById("backToProducts").style.display = "inline-block";
+
+    renderFavorites();
+}
+
+function showProducts() {
+    document.querySelector(".product-grid").style.display = "grid";
+    document.getElementById("favoritesSection").style.display = "none";
+    document.getElementById("backToProducts").style.display = "none";
+}
+
+// ทำให้หัวใจตรงกับข้อมูลที่บันทึกไว้เมื่อเปิดเว็บใหม่
+document.addEventListener("DOMContentLoaded", function() {
+    const saved = getFavorites();
+
+    document.querySelectorAll(".product-card").forEach(card => {
+        const image = card.querySelector(".product-image img");
+        const button = card.querySelector(".favorite");
+
+        if (!image || !button) return;
+
+        const isSaved = saved.some(item =>
+            item.id === image.getAttribute("src")
+        );
+
+        button.textContent = isSaved ? "♥" : "♡";
+        button.classList.toggle("is-favorite", isSaved);
+    });
+
+    updateFavoriteCount();
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const cards = document.querySelectorAll(".product-card");
+
+    const favoriteBtn = document.getElementById("favorites-toggle");
+    const backBtn = document.getElementById("back-products");
+    const countText = document.getElementById("favorite-count");
+
+    // โหลดข้อมูลของโปรดจาก LocalStorage
+    let favorites = JSON.parse(
+        localStorage.getItem("sportzone_favorites") || "[]"
+    );
+
+    let showFavorites = false;
+
+    // บันทึกข้อมูล
+    function saveFavorites() {
+        localStorage.setItem(
+            "sportzone_favorites",
+            JSON.stringify(favorites)
+        );
+    }
+
+    // อัปเดตจำนวนของโปรด
+    function updateCount() {
+        countText.textContent = favorites.length;
+    }
+
+    // แสดงสถานะหัวใจ
+    function updateHearts() {
+
+        cards.forEach(card => {
+
+            const id = card.dataset.productId;
+            const heart = card.querySelector(".favorite");
+
+            if (favorites.includes(id)) {
+                heart.classList.add("active");
+                heart.textContent = "♥";
+            } else {
+                heart.classList.remove("active");
+                heart.textContent = "♡";
+            }
+
+        });
+
+    }
+
+    // แสดงสินค้า
+    function displayProducts() {
+
+        cards.forEach(card => {
+
+            const id = card.dataset.productId;
+
+            if (showFavorites) {
+
+                card.style.display =
+                    favorites.includes(id) ? "" : "none";
+
+            } else {
+
+                card.style.display = "";
+
+            }
+
+        });
+
+        favoriteBtn.style.display =
+            showFavorites ? "none" : "inline-flex";
+
+        backBtn.style.display =
+            showFavorites ? "inline-flex" : "none";
+
+    }
+
+    // กดหัวใจเพื่อเพิ่มหรือลบของโปรด
+    cards.forEach(card => {
+
+        const heart = card.querySelector(".favorite");
+
+        heart.addEventListener("click", function () {
+
+            const id = card.dataset.productId;
+
+            if (favorites.includes(id)) {
+
+                favorites = favorites.filter(item => item !== id);
+
+            } else {
+
+                favorites.push(id);
+
+            }
+
+            saveFavorites();
+            updateHearts();
+            updateCount();
+            displayProducts();
+
+        });
+
+    });
+
+    // กดดูของโปรด
+    favoriteBtn.addEventListener("click", function () {
+
+        showFavorites = true;
+
+        displayProducts();
+
+    });
+
+    // กลับไปดูสินค้าทั้งหมด
+    backBtn.addEventListener("click", function () {
+
+        showFavorites = false;
+
+        displayProducts();
+
+    });
+
+    // เริ่มต้นระบบ
+    updateHearts();
+    updateCount();
+    displayProducts();
+
+});
+</script>
+</body>
+</html>
